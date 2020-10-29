@@ -2,19 +2,34 @@
 {% load static %}
 {% block content %}
 
-  {% include 'includes/navbar.html' %}
 
     <div class="container">
-        <div class="col-md-8 mx-auto form-group">
-         <h2 class="text-center mb-3">Update Post</h2>
-         <div class="card card-body">
-            <form method="POST">
-                {% csrf_token %} 
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-dark btn-block">Update</button>
-            </form>
-         </div>
-          
-        </div>
+    
+  {% include 'includes/navbar.html' %}
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <div class="col-md-8 mx-auto form-group">
+            <h2 class="text-center mb-3">Update Post</h2>
+                <form method="POST">
+                    {% csrf_token %} 
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark btn-block">Update</button>
+                </form>
+            
+            </div>
+        {% else %}
+                <div class="jumbotron my-2">
+                    <h4 class="text-danger">Sorry You are not allowed to update the post</h3>
+                </div>
+        {% endif %}
+
+    {% else %}
+    <div class="jumbotron my-2">
+        <h4 class="text-danger">Sorry You are not allowed to update the post.Press Login Link for continue...</h3>
+        <a href={% url 'login' %}>Login</a>
+    </div>
+    
+    {% endif %}
+    
     
  {% endblock %}

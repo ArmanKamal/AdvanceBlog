@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'blog',
+    'registration'
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +54,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DeployBlog.urls'
+
+
+LOGOUT_REDIRECT_URL = "list"
 
 TEMPLATES = [
     {

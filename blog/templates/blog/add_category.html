@@ -6,8 +6,8 @@
   <div class="container">
   {% include 'includes/navbar.html' %}
   {% if user.is_authenticated %}
-        <div class="col-md-8 mx-auto form-group">
-         <h2 class="text-center mb-3">Create Post</h2>
+        <div class="col-md-8 mx-auto  my-5 form-group">
+         <h2 class="text-center mb-3">Add Category</h2>
             <form method="POST">
                 {% csrf_token %} 
                 {{ form.as_p }}
@@ -15,15 +15,9 @@
             </form>
           
         </div>
-
-        {% comment %} <script>
-          var user_id = "{{ user.id }}"
-          document.getElementById("author").value = user_id
-        
-        </script> {% endcomment %}
   {% else %}
     <div class="jumbotron my-2">
-        <h4 class="text-danger">Sorry You are not allowed to create a post.Press Login Link for continue...</h3>
+        <h4 class="text-danger">Sorry You are not allowed to create a category.Press Login Link for continue...</h3>
         <a href={% url 'login' %}>Login</a>
     </div>
   {% endif %}

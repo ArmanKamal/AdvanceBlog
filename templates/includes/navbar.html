@@ -1,16 +1,23 @@
+{% url 'login' as login_url %}
+{% url 'add_post' as add_post_url %}
+{% url 'logout' as logout_url %}
+{% url 'list' as home_url %}
+{% url 'register' as register_url %}
+{% url 'add_category' as add_category_url %}
 <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-          <a class="p-2 text-muted" href="#">Home</a>
+          <a class="p-2 text-muted" href="{{ home_url }}">Home</a>
           <a class="p-2 text-muted" href="#">About</a>
-          <a class="p-2 text-muted" href="{% url 'add_post'  %}">Create Blog</a>
-          <a class="p-2 text-muted" href="#">Design</a>
-          <a class="p-2 text-muted" href="#">Culture</a>
-          <a class="p-2 text-muted" href="#">Business</a>
-          <a class="p-2 text-muted" href="#">Politics</a>
-          <a class="p-2 text-muted" href="#">Opinion</a>
-          <a class="p-2 text-muted" href="#">Science</a>
-          <a class="p-2 text-muted" href="#">Health</a>
-          <a class="p-2 text-muted" href="#">Style</a>
-          <a class="p-2 text-muted" href="#">Travel</a>
+          <a class="p-2 text-muted" href="{% url 'category_list' %}">List of Categories</a>
+   
+         {% if  user.is_authenticated  %}
+           <a class="p-2 text-muted" href="{{ add_post_url }}">Create Blog</a>
+           <a class="p-2 text-muted" href="{{ add_category_url }}">Add Category</a>
+           
+            <a class="p-2 text-muted" href="{{ logout_url }}">Logout</a>
+         {% else %}
+           <a class="p-2 text-muted" href="{{ register_url }}">Register</a>
+           <a class="p-2 text-muted" href="{{ login_url }}">Login</a>
+         {% endif %}
         </nav>
 </div>

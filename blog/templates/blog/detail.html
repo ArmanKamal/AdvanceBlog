@@ -9,8 +9,15 @@
 
 
     <a href="{% url 'detail' post.pk %}">{{ post.title}}</a>
-    <p> {{ post.author }}</p>
+    <p> {{ post.author }} - {{ user.id }}</p>
     <p> {{ post.content }}<p>
+
+     {% if user.is_authenticated %}
+        {% if post.author.id == user.id %}
+                <a href="{% url 'update' post.pk %}" class="btn btn-info my-2">Update</a>
+                <a href="{% url 'delete' post.pk %}" class="btn btn-info my-2">Delete</a>
+        {% endif %}
+     {% endif %}
 
  
 </div>

@@ -2,16 +2,30 @@
 {% load static %}
 {% block content %}
 
+ <div class="container">
   {% include 'includes/navbar.html' %}
 
-    <div class="container">
-        <div class="col-md-8 mx-auto form-group">
-         <h2 class="mt-5 mb-3">Delete Post {{post.title}}</h2>
-            <form method="POST">
-                {% csrf_token %} 
-                <strong>Are you sure!You want to delete the post?</strong><br/><br />
-                <button type="submit" class="btn btn-danger active">Confirm</button>
-            </form>
-        </div>
+  {% if user.is_authenticated %}
+     {% if user.id == post.author.id %}
+            <div class="col-md-8 mx-auto form-group">
+            <h2 class="mt-5 mb-3">Delete Post {{post.title}}</h2>
+                <form method="POST">
+                    {% csrf_token %} 
+                    <strong>Are you sure!You want to delete the post?</strong><br/><br />
+                    <button type="submit" class="btn btn-danger active">Confirm</button>
+                </form>
+            </div>
+      {% else %}
+           <div class="jumbotron my-2">
+                    <h4 class="text-danger">Sorry You are not allowed to delete the post</h3>
+           </div>
+      {% endif %}
+  {% else %}
+    <div class="jumbotron my-2">
+                    <h4 class="text-danger">Sorry You are not logged In</h3>
+                    <a href={% url 'login' %}>Login</a>
     
+
+  {% endif %}
+  </div>
  {% endblock %}
