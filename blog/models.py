@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models.signals import pre_save
 from .utils import unique_slug_generator
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class CategoryModel(models.Model):
@@ -17,10 +18,12 @@ class CategoryModel(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
-    content = models.TextField()
+    content = RichTextField(blank=True,null=True)
+    snippet = models.CharField(max_length=255)
     featured = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(CategoryModel,on_delete=models.SET_NULL,null=True)
+    likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
         return self.title + ' | '+ str(self.author)

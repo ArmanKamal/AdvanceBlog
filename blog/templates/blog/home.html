@@ -30,7 +30,7 @@
                 <a class="text-dark" href="#">Featured post</a>
               </h3>
               <div class="mb-1 text-muted">{{ post.timestamp }}</div>
-              <p class="card-text mb-auto">{{ post.content }}</p>
+              <p class="card-text mb-auto">{{ post.snippet|truncatewords:40 }}</p>
               <a href="#">Continue Reading ...</a>
             </div>
             <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Card image cap">
@@ -71,8 +71,9 @@
                     <a href="{% url 'delete' post.pk %}" class="btn btn-info btn-sm  my-2">Delete</a>
                 {% endif %}
              {% endif %}
-                <p class="blog-post-meta">{{ post.timestamp }} <a href="#">Posted by: {{ post.author }}</a></p>
-                <p>{{ post.content | truncatewords:20}}
+                <p class="blog-post-meta">{{ post.timestamp }} <span>Posted by: {{ post.author }}</span></p>
+                <p>{{ post.snippet | truncatewords:20|safe}}</p>
+                <a href={% url 'detail' post.pk %}>Continue Reading...</a>
           </div><!-- /.blog-post -->
 
         {% endfor %}

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Post,CategoryModel
 from .forms import PostForm,UpdateForm
 from django.urls import reverse_lazy
-
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 class HomeView(ListView):
     model = Post
@@ -20,8 +21,6 @@ class CategoryList(ListView):
     model = CategoryModel
     template_name = "blog/category_list.html"
 
-  
-    
 
 class ArticleDetailView(DetailView):
     model = Post
@@ -64,3 +63,21 @@ def CategoryView(request,slug):
     }
 
     return render(request,"blog/categories.html",context)
+
+def LikeView(request):
+    post = get_object_or_404(Post, id = request.POST.get('id'))
+    user = request.user
+    is_liked = False
+    if user in post.likes.all():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked = True
+    context = {
+        "is_liked": is_liked,
+        "post": post
+    }
+    if request.is_ajax():
+        html = render_to_string('blog/includes/like_section.html',context, request=request)
+        return JsonResponse({'form': html})

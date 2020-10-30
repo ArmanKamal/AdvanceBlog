@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="container">
 {% include 'includes/navbar.html' %}
 
-<h1 class="mt-5">Post</h1>
 
-
-
-    <a href="{% url 'detail' post.pk %}">{{ post.title}}</a>
-    <p> {{ post.author }} - {{ user.id }}</p>
-    <p> {{ post.content }}<p>
+    <h3 class="mt-5"><a href="{% url 'detail' post.pk %}">{{ post.title}}</a></h3>
+    <h5>{{post.snippet }}</h5>
+    <p> {{ post.author }}</p>
+    <p> {{ post.content|safe }}<p>
 
      {% if user.is_authenticated %}
         {% if post.author.id == user.id %}
@@ -19,7 +16,9 @@
         {% endif %}
      {% endif %}
 
- 
+   <div id='like-section'>
+        {% include 'blog/includes/like_section.html' %}
+   </div>
 </div>
 
 
