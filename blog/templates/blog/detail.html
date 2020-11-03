@@ -7,6 +7,9 @@
     <h3 class="mt-5"><a href="{% url 'detail' post.pk %}">{{ post.title}}</a></h3>
     <h5>{{post.snippet }}</h5>
     <p> {{ post.author }}</p>
+    {% if post.blog_image.url %}
+         <img src={{ post.blog_image.url }} class="img-fluid">
+    {% endif %}
     <p> {{ post.content|safe }}<p>
 
      {% if user.is_authenticated %}
