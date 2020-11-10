@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Post,CategoryModel
-from .forms import PostForm,UpdateForm
+from .models import Post,CategoryModel,Comment
+from .forms import PostForm,UpdateForm,AddCommentForm
 from django.urls import reverse_lazy
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -45,6 +45,19 @@ class DeletePostView(DeleteView):
     template_name = 'blog/delete_post.html'
 
     success_url = reverse_lazy('list')
+
+
+class AddComment(CreateView):
+    model = Comment
+    template_name = 'blog/includes/add_comment.html'
+    form_class = AddCommentForm
+    
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.kwargs['pk']})
+    
+    def form_valid(self, form_class):
+        form_class.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form_class)
 
 class AddCategoryView(CreateView):
     model = CategoryModel

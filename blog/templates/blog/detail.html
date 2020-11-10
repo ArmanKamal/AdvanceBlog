@@ -28,11 +28,16 @@
     No comments yet.
    {% else %}
       {% for comment in post.comments.all %}
-          {{ comment.name }} -
-          {{ comment.date_added }}<br>
-          {{ comment.body }}
+       <div class="row my-2">
+         <small>{{ comment.name }} -
+          {{ comment.date_added }}</smaill><br>
+          <p class="font-weight-bold">{{ comment.body }}</p>
+
+       </div>
+         
       {% endfor %}
    {% endif %}
+   <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
 </div>
 
 
