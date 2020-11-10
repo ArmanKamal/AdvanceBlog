@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login
-from .forms import LoginForm,RegisterForm,UserEditForm
+from .forms import LoginForm,RegisterForm,UserEditForm,CreateProfileForm
 from blog.models import UserProfile
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
@@ -14,6 +14,18 @@ def password_success(request):
 
 def user_profile(request):
     return render(request, 'user_profile.html')
+
+
+class CreateProfilePage(CreateView):
+    model = UserProfile
+    template_name = "create_profile.html"
+    form_class = CreateProfileForm
+    success_url = reverse_lazy('list')
+    
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 

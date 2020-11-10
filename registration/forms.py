@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.contrib.auth.models import User
+from blog.models import UserProfile
 
 
 class LoginForm(forms.Form):
@@ -33,3 +34,9 @@ class UserEditForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('username','first_name','last_name','email','password')
+
+class CreateProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('bio','phone_num','profile_pic','website_url','facebook_url','twitter_url','instagram_url','pinterest_url')
+  

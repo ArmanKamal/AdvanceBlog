@@ -18,8 +18,12 @@
            <a class="p-2 text-muted" href="{{ add_post_url }}">Create Blog</a>
            <a class="p-2 text-muted" href="{{ add_category_url }}">Add Category</a>
            <a class="p-2 text-muted" href="{{ settings_url }}">Settings</a>
-          <a class="p-2 text-muted" href="{% url   'edit_profile_page' user.userprofile.id%}">Edit Profile</a>
-          <a class="p-2 text-muted" href="{% url 'user_profile'  user.userprofile.id  %}">Show Profile</a>
+           {% if user.userprofile %}
+              <a class="p-2 text-muted" href="{% url   'edit_profile_page' user.userprofile.id%}">Edit Profile</a>
+              <a class="p-2 text-muted" href="{% url 'user_profile'  user.userprofile.id  %}">Show Profile</a>
+          {% else %}
+              <a class="p-2 text-muted" href="{% url 'create_profile_page' %}">Create Profile</a>
+          {% endif %}
           <a class="p-2 text-muted" href="{{ logout_url }}">Logout</a>
          {% else %}
            <a class="p-2 text-muted" href="{{ register_url }}">Register</a>
