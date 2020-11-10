@@ -22,6 +22,17 @@
    <div id='like-section'>
         {% include 'blog/includes/like_section.html' %}
    </div>
+   <hr />
+   <h2>Comments</h2>
+   {% if not post.comments.all %}
+    No comments yet.
+   {% else %}
+      {% for comment in post.comments.all %}
+          {{ comment.name }} -
+          {{ comment.date_added }}<br>
+          {{ comment.body }}
+      {% endfor %}
+   {% endif %}
 </div>
 
 
