@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
-from django.views.generic import CreateView,UpdateView
+from django.shortcuts import render,redirect,get_object_or_404
+from django.views.generic import CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login
 from .forms import LoginForm,RegisterForm,UserEditForm
+from blog.models import UserProfile
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -10,6 +11,35 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 def password_success(request):
     return render(request, 'password_success.html',{})
+
+def user_profile(request):
+    return render(request, 'user_profile.html')
+
+
+
+
+class ShowProfile(DetailView):
+    model = UserProfile
+    template_name = 'user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+       # users = UserProfile.objects.all()
+        page_user = get_object_or_404(UserProfile, id=self.kwargs.get('pk'))
+        context["page_user"] = page_user
+        return context
+    
+
+class EditProfilePageView(UpdateView):
+    model = UserProfile
+  
+    template_name = 'edit_profile_page.html'
+  
+    fields =['bio','phone_num','profile_pic','website_url','facebook_url','twitter_url','instagram_url','pinterest_url']
+    
+    success_url = reverse_lazy('list')
+
+
 
 class PasswordChangeView(PasswordChangeView):
     form_class = PasswordChangeForm

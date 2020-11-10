@@ -5,13 +5,11 @@
   <body>
     <div class="container">
         <div class="col-md-8 mx-auto form-group">
-         <h2 class="text-center mb-3">Edit Profile</h2>
-
-         {{ user.userprofile.bio }}
+         <h2 class="text-center mb-3">Edit Settings</h2>
             <form method="POST">
                 {% csrf_token %} 
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary  btn-block active">Register</button>
+                <button type="submit" class="btn btn-primary  btn-block active">Change</button>
             </form>
           
         </div>

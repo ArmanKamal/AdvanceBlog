@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/<slug:slug>',CategoryView,name="category"),
     path('category_list/',CategoryList.as_view(),name="category_list"),
     path('like/',LikeView,name="like_post"),
+
 ]
