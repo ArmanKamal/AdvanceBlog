@@ -62,7 +62,7 @@ class AddComment(CreateView):
 class AddCategoryView(CreateView):
     model = CategoryModel
     template_name = 'blog/add_category.html'
-    fields = '__all__'
+    fields = ('title',)
     success_url = reverse_lazy('list')
 
 

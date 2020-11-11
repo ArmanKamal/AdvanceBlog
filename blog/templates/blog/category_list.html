@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+
 {% include 'includes/navbar.html' %}
+<div class="container" style="margin-top:80px">
+<h1 class="mt-5 text-primary">List of Categories</h1>
 
-<h1 class="mt-5">List of Categories</h1>
 
-
-<ul>
+<ul class="list-group col-md-6">
    {% for item in object_list %}
-              <li><a href="{% url 'category' item.slug %}">{{item.title}}</a></li>
-    {% endfor %}
+      <li class="list-group-item text-center"><a href="{% url 'category' item.slug %}" class="text-secondary">{{item.title}}</a></li>
+   {% endfor %}
 
  </ul>
 </div>

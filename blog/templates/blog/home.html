@@ -2,8 +2,91 @@
 {% load static%}
 {% block content %}
 
-  <body>
-    <div class="container">
+    <header>
+      <!-- Navbar -->
+      {% include 'includes/navbar.html' %}
+      <!-- Navbar -->
+
+     {% include 'includes/header-carousel.html '%}
+    </header>
+    <main class="my-4">
+      <!-- Posts -->
+      <div class="container">
+        <section id="posts" class="text-center mb-4">
+          <div class="row">
+          {% for post in object_list%}
+              <div class="col-md-6 mb-4">
+              {% if post.blog_image %}
+                  <div
+                    class="bg-image hover-overlay ripple shadow-1-strong rounded mb-4"
+                    data-ripple-color="light"
+                  >
+                    <img src="{{post.blog_image.url}}" class="w-100" />
+                    <a href="#!">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(251, 251, 251, 0.2)"
+                      ></div>
+                    </a>
+                  </div>
+                
+               {% endif %}
+                <h5>{{ post.title }}</h5>
+                <p>
+                  {{ post.snippet | truncatewords:20|safe}}
+                </p>
+                <p class="blog-post-meta">{{ post.timestamp }} <span>Posted by: {{ post.author }}</span></p>
+                <a href="{% url 'detail'  post.pk %}" type="button" class="btn btn-info btn-rounded">
+                  Read more
+                </a>
+                {% if user.is_authenticated %}
+                  {% if user.id == post.author.id %}
+                      <a href="{% url 'update' post.pk %}" class="btn btn-success btn-rounded">Update</a>
+                      <a href="{% url 'delete' post.pk %}" class="btn btn-danger btn-rounded">Delete</a>
+                  {% endif %}
+              {% endif %}
+              </div>
+          {% endfor %} 
+          </div>
+        </section>
+        <!-- Posts -->
+      </div>
+
+      <!-- Pagination -->
+      <section id="pagination" class="d-flex justify-content-center">
+        <nav aria-label="...">
+          <ul class="pagination pagination-circle">
+            <li class="page-item">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+                >Previous</a
+              >
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+              <a class="page-link" href="#"
+                >2 <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+      <!-- Pagination -->
+    </main>
+  {% include 'includes/footer.html' %}
+  </body>
+
+
+</html>
+
+
+
+
+
+    {% comment %} <div class="container">
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-6 mx-auto text-center">
@@ -59,24 +142,7 @@
           <h3 class="pb-3 mb-4 font-italic border-bottom">
             From the Firehose
           </h3>
-        {% for post in object_list%}
-          <div class="blog-post">
-          
-             <h2>Category: <a href="{% url 'category' post.category.slug %}">{{ post.category }}</a></h2>
-             <hr/><br>
-             <h3 class="blog-post-title my-2"><a href="{% url 'detail'  post.pk %} ">{{ post.title }}</a></h2>
-             {% if user.is_authenticated %}
-                {% if user.id == post.author.id %}
-                    <a href="{% url 'update' post.pk %}" class="btn btn-info btn-sm  my-2">Update</a>
-                    <a href="{% url 'delete' post.pk %}" class="btn btn-info btn-sm  my-2">Delete</a>
-                {% endif %}
-             {% endif %}
-                <p class="blog-post-meta">{{ post.timestamp }} <span>Posted by: {{ post.author }}</span></p>
-                <p>{{ post.snippet | truncatewords:20|safe}}</p>
-                <a href={% url 'detail' post.pk %}>Continue Reading...</a>
-          </div><!-- /.blog-post -->
-
-        {% endfor %}
+       
         
 
           <nav class="blog-pagination">
@@ -115,5 +181,5 @@
 
       </div><!-- /.row -->
 
-    </main><!-- /.container -->
+    </main><!-- /.container --> {% endcomment %}
  {% endblock %}

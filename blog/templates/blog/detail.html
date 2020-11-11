@@ -1,46 +1,156 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="container">
-{% include 'includes/navbar.html' %}
 
+<header>
+      <!-- Navbar -->
+     {% include 'includes/navbar.html' %}
+      <!-- Navbar -->
 
-    <h3 class="mt-5"><a href="{% url 'detail' post.pk %}">{{ post.title}}</a></h3>
-    <h5>{{post.snippet }}</h5>
-    <p> {{ post.author }}</p>
-    {% if  post.blog_image %}
-         <img src={{ post.blog_image.url }} class="img-fluid">
-    {% endif %}
-    <p> {{ post.content|safe }}<p>
+      <!-- Jumbotron -->
+      <div class="p-5 text-center bg-light" style="margin-top: 58px;">
+        <h1 class="my-1 h4">{{ post.title}}</h1>
+      </div>
+      <!-- Jumbotron -->
+    </header>
+     <div class="container">
+            <!-- Post Data -->
+            <section id="post" class="border-bottom my-4">
+              {% if  post.blog_image %}
+                  <img
+                     src="{{ post.blog_image.url}}"
+                     alt="Feature image"
+                     class="img-fluid shadow-2-strong rounded mb-4"
+                  />
+               {% endif %}
+              <div class="row align-items-center mb-4">
+                <div class="col-md-6 text-center text-lg-left mb-3 m-lg-0">
+                {% if post.author.userprofile.profile_pic %}
+                  <img
+                    src="{{post.author.userprofile.profile_pic.url }}"
+                    alt="Avatar"
+                    class="rounded shadow-1-strong mr-2"
+                    height="35"
+                  />
+                  {% endif %}
+                  <span>Published <u>{{ post.timestamp.date }}</u> by</span>
+                  <a href="#" class="text-dark">{{ post.author }}</a>
+                </div>
+                <div class="col-md-6 text-center text-lg-right">
+                  <!-- Facebook -->
+                  <a
+                    class="btn btn-primary px-3 mr-1"
+                    style="background-color: #3b5998;"
+                    href="#!"
+                    role="button"
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
 
-     {% if user.is_authenticated %}
-        {% if post.author.id == user.id %}
-                <a href="{% url 'update' post.pk %}" class="btn btn-info my-2">Update</a>
-                <a href="{% url 'delete' post.pk %}" class="btn btn-info my-2">Delete</a>
-        {% endif %}
-     {% endif %}
+                  <!-- Twitter -->
+                  <a
+                    class="btn btn-primary px-3 mr-1"
+                    style="background-color: #55acee;"
+                    href="#!"
+                    role="button"
+                    ><i class="fab fa-twitter"></i
+                  ></a>
 
-   <div id='like-section'>
-        {% include 'blog/includes/like_section.html' %}
-   </div>
-   <hr />
-   <h2>Comments</h2>
-   {% if not post.comments.all %}
-    No comments yet.
-   {% else %}
-      {% for comment in post.comments.all %}
-       <div class="row my-2">
-         <small>{{ comment.name }} -
-          {{ comment.date_added }}</smaill><br>
-          <p class="font-weight-bold">{{ comment.body }}</p>
+                  <!-- Linkedin -->
+                  <a
+                    class="btn btn-primary px-3 mr-1"
+                    style="background-color: #0082ca;"
+                    href="#!"
+                    role="button"
+                    ><i class="fab fa-linkedin-in"></i
+                  ></a>
 
-       </div>
+                  <!-- Comments -->
+                  <a type="button" class="btn btn-primary px-3 mr-1">
+                    <i class="fas fa-comments"></i>
+                  </a>
+                </div>
+              </div>
+            </section>
+            <!-- Post Data -->
+            <!-- Post Content -->
+            <section id="content" class="mb-4">
+              <p>{{ post.content| safe}}</p>
+              <div id='like-section'>{% include 'blog/includes/like_section.html' %}</div>
+               {% if user.is_authenticated %}
+                  {% if post.author.id == user.id %}
+                           <a href="{% url 'update' post.pk %}" class="btn btn-success my-2">Update</a>
+                           <a href="{% url 'delete' post.pk %}" class="btn btn-danger my-2">Delete</a>
+                           
+                  {% endif %}
+               {% endif %}
+            <!-- Social Share  -->
+            <section
+              id="social"
+              class="border-bottom mb-4 py-4 mb-4 text-center"
+            >
+              <a type="button" href="{% url 'add_comment' post.pk %}" class="btn btn-primary m-1">
+                <i class="fas fa-comments mr-2"></i>Add comment
+              </a>
+            </section>
+            <!-- Social Share  -->
+            <!-- Author Box  -->
+            <section id="author" class="border-bottom mb-4 pb-4">
+              <div class="row">
+                <div class="col-md-3">
+                {% if  post.author.userprofile.profile_pic %}
+                  <img
+                    src="{{ post.author.userprofile.profile_pic.url }}"
+                    alt="Author avatar"
+                    class="img-fluid shadow-1-strong rounded"
+                  />
+                {% endif %}
+                </div>
+                <div class="col-md-9">
+                  <p class="my-2">
+                    
+                     {% if post.author.userprofile.first_name %}
+                         <strong>{{ post.author.userprofile.first_name }}</strong>
+                     {% else %} 
+                         <strong>{{ post.author }}</strong> 
+                     {% endif %}
+                     
+                  </p>
+                  <a href="{{ post.author.facebook_url }}" class="text-dark"
+                    ><i class="fab fa-facebook-f mr-1"></i
+                  ></a>
+                  <a href="{{ post.author.twitter_url }}" class="text-dark"
+                    ><i class="fab fa-twitter mr-1"></i
+                  ></a>
+                  <a href="" class="text-dark"
+                    ><i class="fab fa-linkedin mr-1"></i
+                  ></a>
+                  <p class="mt-2">
+                   {{ post.author.bio}}
+                  </p>
+                </div>
+              </div>
+            </section>
+            <!-- Author Box  -->
+            <!-- Comments  -->
+            <section id="comments">
+              <p class="text-center"><strong>Comments: {{ post.comments.count }}</strong></p>
          
-      {% endfor %}
-   {% endif %}
-   <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-</div>
-
-
-
-
+           {% if  post.comments.all %}
+            <div class="row my-2">
+               {% for comment in post.comments.all %}
+                <div class="col-10 border-bottom mb-2 ">
+                  <p class="mb-2"><strong>{{ comment.name }}</strong></p>
+                  <span>{{comment.date_added}}</span>
+                  <p>
+                  {{comment.body}}
+                  </p>
+                </div>
+               {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+   
 {% endblock %}
